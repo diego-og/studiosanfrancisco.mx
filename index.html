@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio San Francisco</title>
+  <meta name="description" content="Studio San Francisco — Banda de Ciudad de México">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Barlow:wght@300;400&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --negro: #0e0c0a;
+      --carbon: #1a1612;
+      --superficie: #221e19;
+      --naranja: #c45c1a;
+      --naranja-suave: #e07a3a;
+      --crema: #f0e8d8;
+      --crema-suave: #d4c9b4;
+      --hueso: #8a7e6e;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--negro);
+      color: var(--crema);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* Grano analógico */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 500;
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.5s ease;
+    }
+    nav.scrolled {
+      background: rgba(14,12,10,0.95);
+      backdrop-filter: blur(12px);
+      padding: 20px 48px;
+      border-bottom: 1px solid rgba(196,92,26,0.15);
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--crema);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--hueso);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--naranja-suave); }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background: url('img/ssf_1.png') center center / cover no-repeat;
+      transform: scale(1.04);
+      animation: slowzoom 12s ease-out forwards;
+    }
+    @keyframes slowzoom {
+      from { transform: scale(1.04); }
+      to { transform: scale(1); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(14,12,10,0.98) 0%, rgba(14,12,10,0.4) 40%, rgba(14,12,10,0.1) 100%),
+        linear-gradient(to right, rgba(14,12,10,0.5) 0%, transparent 60%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 48px 72px;
+      max-width: 700px;
+    }
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--naranja-suave);
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeup 0.8s 0.4s forwards;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(56px, 9vw, 120px);
+      font-weight: 400;
+      line-height: 0.92;
+      color: var(--crema);
+      opacity: 0;
+      animation: fadeup 0.8s 0.6s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--crema-suave);
+      display: block;
+    }
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--hueso);
+      opacity: 0;
+      animation: fadeup 0.8s 0.8s forwards;
+    }
+    .hero-actions {
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeup 0.8s 1s forwards;
+    }
+    .btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 13px 28px;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+    .btn-filled {
+      background: var(--naranja);
+      color: var(--crema);
+    }
+    .btn-filled:hover {
+      background: var(--naranja-suave);
+    }
+    .btn-outline {
+      border: 1px solid rgba(240,232,216,0.25);
+      color: var(--crema-suave);
+    }
+    .btn-outline:hover {
+      border-color: var(--crema-suave);
+      color: var(--crema);
+    }
+
+    @keyframes fadeup {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECCIONES ── */
+    section { padding: 120px 48px; }
+
+    .etiqueta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--naranja);
+      margin-bottom: 56px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .etiqueta::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--naranja);
+      opacity: 0.6;
+    }
+
+    .single-fecha {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.4em;
+      color: var(--hueso);
+      margin-top: 20px;
+    }
+
+    /* ── CLUB ── */
+    #extraños { background: var(--carbon); }
+
+    .single-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .single-portada {
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .single-portada img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .single-portada:hover img { transform: scale(1.03); }
+
+    .single-info {}
+    .single-nuevo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--naranja-suave);
+      margin-bottom: 16px;
+    }
+    .single-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1;
+      color: var(--crema);
+      margin-bottom: 24px;
+    }
+    .single-desc {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--hueso);
+      margin-bottom: 40px;
+      max-width: 420px;
+    }
+    .plataformas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .plataforma {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--crema-suave);
+      text-decoration: none;
+      padding: 10px 18px;
+      border: 1px solid rgba(240,232,216,0.15);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .plataforma:hover {
+      border-color: var(--naranja);
+      color: var(--naranja-suave);
+    }
+
+    #club {
+      background: var(--negro);
+      text-align: center;
+      padding: 140px 48px;
+      border-top: 1px solid rgba(196,92,26,0.1);
+      border-bottom: 1px solid rgba(196,92,26,0.1);
+    }
+    .club-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 7vw, 96px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1;
+      color: var(--crema);
+      margin-bottom: 24px;
+    }
+    .club-titulo span { color: var(--naranja-suave); }
+    .club-sub {
+      font-size: 15px;
+      color: var(--hueso);
+      margin-bottom: 48px;
+      font-style: italic;
+    }
+
+    /* ── BANDA ── */
+    #banda { background: var(--negro); }
+
+    .banda-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+    .banda-foto {
+      position: sticky;
+      top: 100px;
+      overflow: hidden;
+    }
+    .banda-foto img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      filter: contrast(1.05) saturate(0.9);
+    }
+    .banda-texto {}
+    .banda-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--crema);
+      margin-bottom: 28px;
+    }
+    .banda-titulo em {
+      font-style: italic;
+      color: var(--crema-suave);
+    }
+    .banda-p {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--hueso);
+      margin-bottom: 18px;
+    }
+    .banda-p strong {
+      color: var(--crema-suave);
+      font-weight: 400;
+    }
+    .integrantes {
+      margin-top: 48px;
+    }
+    .integrante {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(240,232,216,0.07);
+      transition: padding-left 0.3s;
+    }
+    .integrante:first-child { border-top: 1px solid rgba(240,232,216,0.07); }
+    .integrante:hover { padding-left: 6px; }
+    .int-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-style: italic;
+      color: var(--crema);
+    }
+    .int-rol {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--naranja);
+    }
+
+    /* ── SHOWS ── */
+    #shows { background: var(--superficie); }
+    .shows-vacio {
+      padding: 40px 0 20px;
+    }
+    .shows-vacio p {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-style: italic;
+      color: var(--hueso);
+      margin-bottom: 8px;
+    }
+    .shows-vacio span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--hueso);
+      opacity: 0.4;
+    }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--negro); }
+
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+    .contacto-izq h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 5vw, 60px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.1;
+      color: var(--crema);
+      margin-bottom: 20px;
+    }
+    .contacto-izq p {
+      font-size: 15px;
+      color: var(--hueso);
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+    .redes {
+      display: flex;
+      flex-direction: column;
+    }
+    .red {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(240,232,216,0.07);
+      text-decoration: none;
+      transition: padding-left 0.3s;
+    }
+    .red:first-child { border-top: 1px solid rgba(240,232,216,0.07); }
+    .red:hover { padding-left: 8px; }
+    .red:hover .red-nombre { color: var(--naranja-suave); }
+    .red-nombre {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--crema-suave);
+      transition: color 0.3s;
+    }
+    .red-handle {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--hueso);
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Formulario */
+    .form-campo {
+      margin-bottom: 28px;
+    }
+    .form-campo label {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--naranja);
+      margin-bottom: 8px;
+    }
+    .form-campo input,
+    .form-campo textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(240,232,216,0.15);
+      padding: 10px 0;
+      color: var(--crema);
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-style: italic;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-campo input:focus,
+    .form-campo textarea:focus {
+      border-bottom-color: var(--naranja);
+    }
+    .form-campo input::placeholder,
+    .form-campo textarea::placeholder {
+      color: var(--hueso);
+      opacity: 0.5;
+    }
+    .form-campo textarea { resize: none; height: 90px; }
+    .form-enviar {
+      width: 100%;
+      padding: 15px;
+      background: transparent;
+      border: 1px solid var(--naranja);
+      color: var(--naranja-suave);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 8px;
+    }
+    .form-enviar:hover {
+      background: var(--naranja);
+      color: var(--crema);
+    }
+    .form-ok {
+      display: none;
+      text-align: center;
+      padding: 14px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--naranja-suave);
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--carbon);
+      padding: 36px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(196,92,26,0.12);
+    }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--crema-suave);
+    }
+    .footer-copy {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--hueso);
+      opacity: 0.5;
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 24px; }
+      nav.scrolled { padding: 16px 24px; }
+      .nav-links { display: none; }
+      #hero .hero-content { padding: 0 24px 56px; }
+      section { padding: 80px 24px; }
+      .single-grid { grid-template-columns: 1fr; gap: 40px; }
+      .banda-grid { grid-template-columns: 1fr; gap: 48px; }
+      .banda-foto { position: static; }
+      .contacto-grid { grid-template-columns: 1fr; gap: 60px; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">
+      <!-- Cuando tengas logo: <img src="img/logo.svg" alt="SSF" height="22"> -->
+      Studio San Francisco
+    </a>
+    <ul class="nav-links">
+      <li><a href="#extraños">Música</a></li>
+      <li><a href="#banda">Banda</a></li>
+      <li><a href="#club">Club</a></li>
+      <li><a href="#shows">Shows</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-img"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-tag">Ciudad de México</p>
+      <h1 class="hero-title">
+        Studio
+        <em>San Francisco</em>
+      </h1>
+      <p class="hero-sub">Indie / Dream Pop</p>
+      <div class="hero-actions">
+        <a href="#extraños" class="btn btn-filled">Escuchar</a>
+        <a href="#banda" class="btn btn-outline">La banda</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXTRAÑOS -->
+  <section id="extraños">
+    <p class="etiqueta reveal">Música</p>
+    <div class="single-grid reveal">
+      <div class="single-portada">
+        <img src="img/extraños.jpg" alt="Extraños — Studio San Francisco">
+      </div>
+      <div class="single-info">
+        <p class="single-nuevo">Nuevo sencillo</p>
+        <h2 class="single-titulo">Extraños</h2>
+        <p class="single-desc">Una apuesta al azar. Una carta boca abajo. El amor como ruleta — nunca sabes en qué número va a caer.</p>
+        <p class="single-fecha">10 . 04 . 25</p>
+        <a href="TULINK-PRESAVE" target="_blank" class="btn btn-filled" style="margin-top: 28px; display: inline-block;">Pre-save</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANDA -->
+  <section id="banda">
+    <p class="etiqueta reveal">La banda</p>
+    <div class="banda-grid">
+      <div class="banda-foto reveal">
+        <img src="img/ssf_3.png" alt="Studio San Francisco">
+      </div>
+      <div class="banda-texto reveal">
+        <h2 class="banda-titulo">Cuatro de<br><em>la Ciudad de México</em></h2>
+        <p class="banda-p">
+          Studio San Francisco nació en 2023. Hacemos música que vive en los espacios entre las cosas — entre quedarse e irse, entre conocer a alguien y perderlo.
+        </p>
+        <p class="banda-p">
+          Indie y dream pop. Música para los que sienten demasiado y no saben cómo decirlo.
+        </p>
+        <div class="integrantes">
+          <div class="integrante">
+            <span class="int-nombre">Diego Origel</span>
+            <span class="int-rol">Voz</span>
+          </div>
+          <div class="integrante">
+            <span class="int-nombre">Rodrigo Reyes</span>
+            <span class="int-rol">Guitarra</span>
+          </div>
+          <div class="integrante">
+            <span class="int-nombre">Héctor Gómez</span>
+            <span class="int-rol">Bajo</span>
+          </div>
+          <div class="integrante">
+            <span class="int-nombre">Santiago López</span>
+            <span class="int-rol">Batería</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLUB DE CORAZONES ROTOS -->
+  <section id="club">
+    <div class="reveal">
+      <h2 class="club-titulo">Club de<br><span>Corazones Rotos</span></h2>
+      <p class="club-sub">Para los que ya saben de qué va esto.</p>
+      <a href="TULINK-CLUB" target="_blank" class="btn btn-outline">Unirme</a>
+    </div>
+  </section>
+
+  <!-- SHOWS -->
+  <section id="shows">
+    <p class="etiqueta reveal">Shows</p>
+    <div class="shows-vacio reveal">
+      <p>Próximas fechas</p>
+      <span>Síguenos para no perderte nada</span>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <p class="etiqueta reveal">Contacto</p>
+    <div class="contacto-grid">
+      <div class="contacto-izq reveal">
+        <h2>Hablemos.</h2>
+        <p>Booking, prensa, colaboraciones — escríbenos.</p>
+        <div class="redes">
+          <a href="https://instagram.com/studiosanfrancisco" target="_blank" class="red">
+            <span class="red-nombre">Instagram</span>
+            <span class="red-handle">@studiosanfrancisco</span>
+          </a>
+          <a href="https://tiktok.com/@studiosanfrancisco" target="_blank" class="red">
+            <span class="red-nombre">TikTok</span>
+            <span class="red-handle">@studiosanfrancisco</span>
+          </a>
+          <a href="https://open.spotify.com/artist/TULINK" target="_blank" class="red">
+            <span class="red-nombre">Spotify</span>
+            <span class="red-handle">Studio San Francisco</span>
+          </a>
+          <a href="https://www.youtube.com/@studiosanfrancisco" target="_blank" class="red">
+            <span class="red-nombre">YouTube</span>
+            <span class="red-handle">@studiosanfrancisco</span>
+          </a>
+        </div>
+      </div>
+      <div class="contacto-der reveal">
+        <div class="form-campo">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre">
+        </div>
+        <div class="form-campo">
+          <label>Email</label>
+          <input type="email" placeholder="correo@ejemplo.com">
+        </div>
+        <div class="form-campo">
+          <label>Mensaje</label>
+          <textarea placeholder="Cuéntanos..."></textarea>
+        </div>
+        <button class="form-enviar" onclick="enviar()">Enviar</button>
+        <p class="form-ok" id="formOk">Mensaje recibido. Pronto te contactamos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">SSF — Studio San Francisco</span>
+    <span class="footer-copy">© 2025 Ciudad de México</span>
+  </footer>
+
+  <script>
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Form
+    function enviar() {
+      document.getElementById('formOk').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
