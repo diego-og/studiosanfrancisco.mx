@@ -1,758 +1,769 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unknown — Agencia Integral</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio San Francisco</title>
+  <meta name="description" content="Studio San Francisco — Banda de Ciudad de México">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Barlow:wght@300;400&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
 
+  <style>
     :root {
-      --black: #0a0a0a;
-      --white: #f5f2ed;
-      --accent: #e8ff47;
-      --gray: #888;
-      --border: rgba(245,242,237,0.12);
+      --negro: #0e0c0a;
+      --carbon: #1a1612;
+      --superficie: #221e19;
+      --naranja: #c45c1a;
+      --naranja-suave: #e07a3a;
+      --crema: #f0e8d8;
+      --crema-suave: #d4c9b4;
+      --hueso: #8a7e6e;
     }
 
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
+      background: var(--negro);
+      color: var(--crema);
+      font-family: 'Barlow', sans-serif;
       font-weight: 300;
       overflow-x: hidden;
     }
 
-    /* GRAIN */
-    body::before {
+    /* Grano analógico */
+    body::after {
       content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
-      z-index: 100;
+      z-index: 9000;
+      opacity: 0.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 500;
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.5s ease;
+    }
+    nav.scrolled {
+      background: rgba(14,12,10,0.95);
+      backdrop-filter: blur(12px);
+      padding: 20px 48px;
+      border-bottom: 1px solid rgba(196,92,26,0.15);
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--crema);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--hueso);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--naranja-suave); }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background: url('img/ssf_1.png') center center / cover no-repeat;
+      transform: scale(1.04);
+      animation: slowzoom 12s ease-out forwards;
+    }
+    @keyframes slowzoom {
+      from { transform: scale(1.04); }
+      to { transform: scale(1); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(14,12,10,0.98) 0%, rgba(14,12,10,0.4) 40%, rgba(14,12,10,0.1) 100%),
+        linear-gradient(to right, rgba(14,12,10,0.5) 0%, transparent 60%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 48px 72px;
+      max-width: 700px;
+    }
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--naranja-suave);
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeup 0.8s 0.4s forwards;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(56px, 9vw, 120px);
+      font-weight: 400;
+      line-height: 0.92;
+      color: var(--crema);
+      opacity: 0;
+      animation: fadeup 0.8s 0.6s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--crema-suave);
+      display: block;
+    }
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--hueso);
+      opacity: 0;
+      animation: fadeup 0.8s 0.8s forwards;
+    }
+    .hero-actions {
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeup 0.8s 1s forwards;
+    }
+    .btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 13px 28px;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+    .btn-filled {
+      background: var(--naranja);
+      color: var(--crema);
+    }
+    .btn-filled:hover {
+      background: var(--naranja-suave);
+    }
+    .btn-outline {
+      border: 1px solid rgba(240,232,216,0.25);
+      color: var(--crema-suave);
+    }
+    .btn-outline:hover {
+      border-color: var(--crema-suave);
+      color: var(--crema);
+    }
+
+    @keyframes fadeup {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECCIONES ── */
+    section { padding: 120px 48px; }
+
+    .etiqueta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--naranja);
+      margin-bottom: 56px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .etiqueta::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--naranja);
       opacity: 0.6;
     }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 50;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.5rem 2.5rem;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      background: rgba(10,10,10,0.7);
-      animation: fadeDown 0.8s ease both;
+    .single-fecha {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.4em;
+      color: var(--hueso);
+      margin-top: 20px;
     }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 0.15em;
-      color: var(--white);
-      text-decoration: none;
-    }
-    .nav-logo img { height: 44px; width: auto; display: block; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: rgba(245,242,237,0.55);
-      text-decoration: none;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-cta {
-      background: var(--accent);
-      color: var(--black);
-      border: none;
-      padding: 0.55rem 1.4rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .nav-cta:hover { background: #d4f000; transform: scale(1.03); }
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 4rem 5rem;
+    /* ── CLUB ── */
+    #extraños { background: var(--carbon); }
+
+    .single-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .single-portada {
+      aspect-ratio: 1;
+      overflow: hidden;
       position: relative;
+    }
+    .single-portada img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .single-portada:hover img { transform: scale(1.03); }
+
+    .single-info {}
+    .single-nuevo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--naranja-suave);
+      margin-bottom: 16px;
+    }
+    .single-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1;
+      color: var(--crema);
+      margin-bottom: 24px;
+    }
+    .single-desc {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--hueso);
+      margin-bottom: 40px;
+      max-width: 420px;
+    }
+    .plataformas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .plataforma {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--crema-suave);
+      text-decoration: none;
+      padding: 10px 18px;
+      border: 1px solid rgba(240,232,216,0.15);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .plataforma:hover {
+      border-color: var(--naranja);
+      color: var(--naranja-suave);
+    }
+
+    #club {
+      background: var(--negro);
+      text-align: center;
+      padding: 140px 48px;
+      border-top: 1px solid rgba(196,92,26,0.1);
+      border-bottom: 1px solid rgba(196,92,26,0.1);
+    }
+    .club-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 7vw, 96px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1;
+      color: var(--crema);
+      margin-bottom: 24px;
+    }
+    .club-titulo span { color: var(--naranja-suave); }
+    .club-sub {
+      font-size: 15px;
+      color: var(--hueso);
+      margin-bottom: 48px;
+      font-style: italic;
+    }
+
+    /* ── BANDA ── */
+    #banda { background: var(--negro); }
+
+    .banda-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+    .banda-foto {
+      position: sticky;
+      top: 100px;
       overflow: hidden;
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(232,255,71,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(255,77,46,0.05) 0%, transparent 50%);
-      animation: bgPulse 8s ease-in-out infinite alternate;
-    }
-    @keyframes bgPulse {
-      from { opacity: 0.8; } to { opacity: 1; }
-    }
-    .hero-grid {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(245,242,237,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(245,242,237,0.03) 1px, transparent 1px);
-      background-size: 80px 80px;
-      pointer-events: none;
-    }
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border);
-      padding: 0.35rem 0.9rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gray);
-      margin-bottom: 2rem;
-      width: fit-content;
-      animation: fadeUp 1s 0.2s ease both;
-      position: relative; z-index: 2;
-    }
-    .hero-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-    }
-    .hero-headline {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4rem, 9vw, 9rem);
-      line-height: 0.92;
-      letter-spacing: -0.01em;
-      animation: fadeUp 1s 0.4s ease both;
-      position: relative; z-index: 2;
-    }
-    .hero-headline .outline {
+    .banda-foto img {
+      width: 100%;
       display: block;
-      -webkit-text-stroke: 1px rgba(245,242,237,0.25);
-      color: transparent;
+      object-fit: cover;
+      filter: contrast(1.05) saturate(0.9);
     }
-    .hero-bottom {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-top: 3rem;
-      animation: fadeUp 1s 0.6s ease both;
-      position: relative; z-index: 2;
-      gap: 2rem; flex-wrap: wrap;
+    .banda-texto {}
+    .banda-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--crema);
+      margin-bottom: 28px;
     }
-    .hero-desc {
-      max-width: 340px;
-      font-size: 1rem; line-height: 1.65;
-      color: rgba(245,242,237,0.55);
+    .banda-titulo em {
+      font-style: italic;
+      color: var(--crema-suave);
     }
-    .hero-desc strong { color: var(--white); font-weight: 400; }
-    .hero-actions { display: flex; gap: 1rem; align-items: center; }
-    .btn-primary {
-      background: var(--accent); color: var(--black);
-      border: none; padding: 1rem 2.2rem;
-      font-family: 'DM Sans', sans-serif; font-weight: 500;
-      font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase;
-      text-decoration: none; cursor: pointer;
-      transition: background 0.2s, transform 0.15s; display: inline-block;
+    .banda-p {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--hueso);
+      margin-bottom: 18px;
     }
-    .btn-primary:hover { background: #d4f000; transform: translateY(-2px); }
-    .btn-ghost {
-      color: rgba(245,242,237,0.6); border: 1px solid var(--border);
-      padding: 1rem 2.2rem; font-size: 0.9rem; letter-spacing: 0.06em;
-      text-transform: uppercase; text-decoration: none; cursor: pointer;
-      transition: color 0.2s, border-color 0.2s, transform 0.15s; display: inline-block;
+    .banda-p strong {
+      color: var(--crema-suave);
+      font-weight: 400;
     }
-    .btn-ghost:hover { color: var(--white); border-color: rgba(245,242,237,0.4); transform: translateY(-2px); }
-    .hero-scroll {
-      display: flex; align-items: center; gap: 0.6rem;
-      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--gray); animation: bounce 2s 2s ease-in-out infinite;
+    .integrantes {
+      margin-top: 48px;
     }
-    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
-    .hero-scroll::before { content: '↓'; font-size: 1.2rem; color: var(--accent); }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .integrante {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(240,232,216,0.07);
+      transition: padding-left 0.3s;
     }
-
-    /* LOGOS STRIP */
-    .logos-wrap {
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      overflow: hidden; padding: 2rem 0;
-      background: rgba(232,255,71,0.02);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-      mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+    .integrante:first-child { border-top: 1px solid rgba(240,232,216,0.07); }
+    .integrante:hover { padding-left: 6px; }
+    .int-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-style: italic;
+      color: var(--crema);
     }
-    .logos-track {
-      display: flex; align-items: center; gap: 0;
-      animation: marquee 30s linear infinite;
-      width: max-content;
-    }
-    .logos-wrap:hover .logos-track { animation-play-state: paused; }
-    .logo-item {
-      display: flex; align-items: center; justify-content: center;
-      padding: 0 3rem; flex-shrink: 0;
-      border-right: 1px solid var(--border);
-    }
-    .logo-item img {
-      height: 42px; width: auto;
-      filter: brightness(0) invert(1) opacity(0.25);
-      transition: filter 0.3s ease;
-    }
-    .logo-item:hover img { filter: brightness(0) invert(1) opacity(0.9); }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    /* SECTIONS */
-    .section { padding: 7rem 4rem; }
-    .section-label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2rem, 3.5vw, 3.5rem);
-      line-height: 1; letter-spacing: 0.02em; margin-bottom: 4rem;
-    }
-    .section-title em { font-style: normal; -webkit-text-stroke: 1px rgba(245,242,237,0.3); color: transparent; }
-
-    /* SERVICES */
-    .services-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1px; background: var(--border); border: 1px solid var(--border);
-    }
-    .service-card {
-      background: var(--black); padding: 2.5rem;
-      position: relative; overflow: hidden; transition: background 0.3s;
-    }
-    .service-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(232,255,71,0.04), transparent);
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .service-card:hover { background: #111; }
-    .service-card:hover::before { opacity: 1; }
-    .service-num {
-      font-family: 'Bebas Neue', sans-serif; font-size: 4rem; line-height: 1;
-      color: rgba(245,242,237,0.06); margin-bottom: 1.5rem; transition: color 0.3s;
-    }
-    .service-card:hover .service-num { color: rgba(232,255,71,0.15); }
-    .service-icon { font-size: 1.8rem; margin-bottom: 1rem; }
-    .service-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
-    .service-desc { font-size: 0.88rem; line-height: 1.6; color: rgba(245,242,237,0.5); }
-    .service-tag {
-      display: inline-block; margin-top: 1.5rem;
-      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--accent); border: 1px solid rgba(232,255,71,0.3); padding: 0.25rem 0.7rem;
+    .int-rol {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--naranja);
     }
 
-    /* STATS */
-    .stats-section {
-      padding: 5rem 2.5rem;
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 3rem;
+    /* ── SHOWS ── */
+    #shows { background: var(--superficie); }
+    .shows-vacio {
+      padding: 40px 0 20px;
     }
-    .stat { text-align: center; }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      line-height: 1; color: var(--accent); display: block;
+    .shows-vacio p {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-style: italic;
+      color: var(--hueso);
+      margin-bottom: 8px;
     }
-    .stat-label { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-top: 0.5rem; }
+    .shows-vacio span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--hueso);
+      opacity: 0.4;
+    }
 
-    /* WORK */
-    .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .work-card {
-      aspect-ratio: 4/3; position: relative; overflow: hidden;
-      background: #111; cursor: pointer;
-    }
-    .work-card-bg { position: absolute; inset: 0; transition: transform 0.6s ease; }
-    .work-card:hover .work-card-bg { transform: scale(1.05); }
-    .wc1 { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
-    .wc2 { background: linear-gradient(135deg, #1a0a00, #3d1a00, #7a3200); }
-    .wc3 { background: linear-gradient(135deg, #0a1a0a, #0d2e0d, #1a5c1a); }
-    .wc4 { background: linear-gradient(135deg, #1a001a, #2e002e, #5c005c); }
-    .wc5 { background: linear-gradient(135deg, #1a1200, #2e2000, #5c4000); }
-    .wc6 { background: linear-gradient(135deg, #0a0a1a, #12121a, #1e1e2e); }
-    .work-info {
-      position: absolute; bottom: 0; left: 0; right: 0; padding: 1.8rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
-    }
-    .work-category { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
-    .work-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em; }
-    .work-overlay {
-      position: absolute; inset: 0; background: rgba(232,255,71,0.05);
-      opacity: 0; transition: opacity 0.3s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .work-card:hover .work-overlay { opacity: 1; }
-    .work-overlay span {
-      border: 1px solid var(--accent); color: var(--accent);
-      padding: 0.6rem 1.4rem; font-size: 0.78rem; letter-spacing: 0.12em;
-      text-transform: uppercase; transform: translateY(10px); transition: transform 0.3s;
-    }
-    .work-card:hover .work-overlay span { transform: translateY(0); }
+    /* ── CONTACTO ── */
+    #contacto { background: var(--negro); }
 
-    /* PROCESS */
-    .process-list { display: flex; flex-direction: column; }
-    .process-item {
-      display: grid; grid-template-columns: 80px 1fr auto;
-      align-items: center; gap: 2rem;
-      padding: 2.2rem 0; border-bottom: 1px solid var(--border); transition: background 0.2s;
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
     }
-    .process-item:hover { background: rgba(245,242,237,0.02); }
-    .process-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: rgba(245,242,237,0.08); text-align: right; transition: color 0.3s; }
-    .process-item:hover .process-num { color: rgba(232,255,71,0.2); }
-    .process-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; }
-    .process-detail { font-size: 0.85rem; color: var(--gray); max-width: 280px; text-align: right; }
+    .contacto-izq h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 5vw, 60px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.1;
+      color: var(--crema);
+      margin-bottom: 20px;
+    }
+    .contacto-izq p {
+      font-size: 15px;
+      color: var(--hueso);
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+    .redes {
+      display: flex;
+      flex-direction: column;
+    }
+    .red {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(240,232,216,0.07);
+      text-decoration: none;
+      transition: padding-left 0.3s;
+    }
+    .red:first-child { border-top: 1px solid rgba(240,232,216,0.07); }
+    .red:hover { padding-left: 8px; }
+    .red:hover .red-nombre { color: var(--naranja-suave); }
+    .red-nombre {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--crema-suave);
+      transition: color 0.3s;
+    }
+    .red-handle {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--hueso);
+      font-family: 'Playfair Display', serif;
+    }
 
-    /* CTA */
-    .cta-section { padding: 8rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
-    .cta-section::before {
-      content: 'UNKNOWN'; position: absolute;
-      font-family: 'Bebas Neue', sans-serif; font-size: 30vw;
-      color: rgba(245,242,237,0.02); top: 50%; left: 50%;
-      transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none;
+    /* Formulario */
+    .form-campo {
+      margin-bottom: 28px;
     }
-    .cta-label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); margin-bottom: 1.5rem; }
-    .cta-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 7rem); line-height: 0.95; margin-bottom: 2.5rem; }
-    .cta-headline .ghost { -webkit-text-stroke: 1px rgba(245,242,237,0.25); color: transparent; }
-    .cta-sub { max-width: 480px; margin: 0 auto 3rem; color: rgba(245,242,237,0.5); font-size: 1rem; line-height: 1.7; }
-    .cta-email {
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.1em;
-      color: var(--accent); text-decoration: none;
-      border-bottom: 1px solid rgba(232,255,71,0.3); padding-bottom: 0.2rem; transition: border-color 0.2s;
+    .form-campo label {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--naranja);
+      margin-bottom: 8px;
     }
-    .cta-email:hover { border-color: var(--accent); }
+    .form-campo input,
+    .form-campo textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(240,232,216,0.15);
+      padding: 10px 0;
+      color: var(--crema);
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-style: italic;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-campo input:focus,
+    .form-campo textarea:focus {
+      border-bottom-color: var(--naranja);
+    }
+    .form-campo input::placeholder,
+    .form-campo textarea::placeholder {
+      color: var(--hueso);
+      opacity: 0.5;
+    }
+    .form-campo textarea { resize: none; height: 90px; }
+    .form-enviar {
+      width: 100%;
+      padding: 15px;
+      background: transparent;
+      border: 1px solid var(--naranja);
+      color: var(--naranja-suave);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 8px;
+    }
+    .form-enviar:hover {
+      background: var(--naranja);
+      color: var(--crema);
+    }
+    .form-ok {
+      display: none;
+      text-align: center;
+      padding: 14px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--naranja-suave);
+      font-size: 16px;
+      margin-top: 8px;
+    }
 
-    /* FOOTER */
-    footer { border-top: 1px solid var(--border); padding: 3rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
-    .footer-logo img { height: 32px; width: auto; opacity: 0.4; }
-    .footer-copy { font-size: 0.78rem; color: rgba(245,242,237,0.25); }
-    .footer-social { display: flex; gap: 1.5rem; }
-    .footer-social a { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,242,237,0.35); text-decoration: none; transition: color 0.2s; }
-    .footer-social a:hover { color: var(--accent); }
-
-    /* MODAL */
-    .modal-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
-      z-index: 500; display: flex; align-items: center; justify-content: center;
-      padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    /* ── FOOTER ── */
+    footer {
+      background: var(--carbon);
+      padding: 36px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(196,92,26,0.12);
     }
-    .modal-backdrop.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: #111; border: 1px solid var(--border);
-      max-width: 860px; width: 100%; max-height: 90vh; overflow-y: auto;
-      position: relative; transform: translateY(30px) scale(0.97); transition: transform 0.3s ease;
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--crema-suave);
     }
-    .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
-    .modal-hero { width: 100%; height: 300px; position: relative; overflow: hidden; }
-    .modal-hero-bg { position: absolute; inset: 0; transition: transform 0.6s ease; }
-    .modal:hover .modal-hero-bg { transform: scale(1.04); }
-    .modal-close {
-      position: absolute; top: 1rem; right: 1rem;
-      width: 40px; height: 40px; border: 1px solid var(--border);
-      background: rgba(10,10,10,0.85); color: var(--white);
-      font-size: 1rem; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: background 0.2s; z-index: 10;
+    .footer-copy {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--hueso);
+      opacity: 0.5;
     }
-    .modal-close:hover { background: var(--accent); color: var(--black); }
-    .modal-body { padding: 2.5rem; }
-    .modal-category { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
-    .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1; margin-bottom: 1.5rem; }
-    .modal-desc { font-size: 0.95rem; line-height: 1.75; color: rgba(245,242,237,0.6); margin-bottom: 2rem; max-width: 600px; }
-    .modal-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
-    .modal-tag { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--border); padding: 0.3rem 0.8rem; color: rgba(245,242,237,0.5); }
-    .modal-results { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 2.5rem; }
-    .modal-result { background: #0a0a0a; padding: 1.5rem; text-align: center; }
-    .modal-result-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--accent); display: block; }
-    .modal-result-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-top: 0.3rem; }
 
-    /* REVEAL */
-    .reveal { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease, transform 0.8s ease; }
-    .reveal.animate { opacity: 0; transform: translateY(40px); }
-    .reveal.animate.visible { opacity: 1; transform: translateY(0); }
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
 
-    /* MOBILE */
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
+      nav { padding: 24px; }
+      nav.scrolled { padding: 16px 24px; }
       .nav-links { display: none; }
-      .hero { padding: 0 1.5rem 4rem; }
-      .section { padding: 5rem 1.5rem; }
-      .work-grid { grid-template-columns: 1fr; }
-      .work-card:first-child { min-height: 300px; }
-      .process-item { grid-template-columns: 50px 1fr; }
-      .process-detail { display: none; }
-      .hero-bottom { flex-direction: column; align-items: flex-start; }
-      footer { flex-direction: column; text-align: center; }
-      .stats-section { grid-template-columns: repeat(2,1fr); }
-      .modal-results { grid-template-columns: 1fr; }
+      #hero .hero-content { padding: 0 24px 56px; }
+      section { padding: 80px 24px; }
+      .single-grid { grid-template-columns: 1fr; gap: 40px; }
+      .banda-grid { grid-template-columns: 1fr; gap: 48px; }
+      .banda-foto { position: static; }
+      .contacto-grid { grid-template-columns: 1fr; gap: 60px; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo"><img src="assets/logos/logo_unknown_blanco.png" alt="Unknown Studio"></a>
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">
+      <!-- Cuando tengas logo: <img src="img/logo.svg" alt="SSF" height="22"> -->
+      Studio San Francisco
+    </a>
     <ul class="nav-links">
-      <li><a href="#servicios">Servicios</a></li>
-      <li><a href="#trabajo">Trabajo</a></li>
-      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#extraños">Música</a></li>
+      <li><a href="#banda">Banda</a></li>
+      <li><a href="#club">Club</a></li>
+      <li><a href="#shows">Shows</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
-    <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Hablemos</button>
   </nav>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-tag">Agencia Integral · México · 2024</div>
-    <h1 class="hero-headline">
-      WE ARE<br>
-      <span class="outline">UNKNOWN</span>
-    </h1>
-    <div class="hero-bottom">
-      <p class="hero-desc">
-        Somos la agencia que convierte tu <strong>visión</strong> en resultados reales. Marketing, video, desarrollo web y estrategia digital — <strong>todo bajo un mismo techo.</strong>
-      </p>
+  <section id="hero">
+    <div class="hero-img"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-tag">Ciudad de México</p>
+      <h1 class="hero-title">
+        Studio
+        <em>San Francisco</em>
+      </h1>
+      <p class="hero-sub">Indie / Dream Pop</p>
       <div class="hero-actions">
-        <a href="#trabajo" class="btn-primary">Ver trabajo</a>
-        <a href="#servicios" class="btn-ghost">Servicios</a>
-      </div>
-      <div class="hero-scroll">Scroll</div>
-    </div>
-  </section>
-
-  <!-- MARQUEE -->
-  <div class="logos-wrap">
-    <div class="logos-track">
-      <div class="logo-item"><img src="assets/logos/crep-protect.webp" alt="Crep Protect"></div>
-      <div class="logo-item"><img src="assets/logos/club-america.webp" alt="Club América"></div>
-      <div class="logo-item"><img src="assets/logos/fifa.webp" alt="FIFA"></div>
-      <div class="logo-item"><img src="assets/logos/adidas.webp" alt="Adidas"></div>
-      <div class="logo-item"><img src="assets/logos/puma.webp" alt="Puma"></div>
-      <div class="logo-item"><img src="assets/logos/new-balance.webp" alt="New Balance"></div>
-      <div class="logo-item"><img src="assets/logos/crocs.webp" alt="Crocs"></div>
-      <div class="logo-item"><img src="assets/logos/stush.webp" alt="Stush"></div>
-      <div class="logo-item"><img src="assets/logos/lilo-lily.webp" alt="Lilo & Lily"></div>
-      <!-- Duplicate for seamless loop -->
-      <div class="logo-item"><img src="assets/logos/crep-protect.webp" alt="Crep Protect"></div>
-      <div class="logo-item"><img src="assets/logos/club-america.webp" alt="Club América"></div>
-      <div class="logo-item"><img src="assets/logos/fifa.webp" alt="FIFA"></div>
-      <div class="logo-item"><img src="assets/logos/adidas.webp" alt="Adidas"></div>
-      <div class="logo-item"><img src="assets/logos/puma.webp" alt="Puma"></div>
-      <div class="logo-item"><img src="assets/logos/new-balance.webp" alt="New Balance"></div>
-      <div class="logo-item"><img src="assets/logos/crocs.webp" alt="Crocs"></div>
-      <div class="logo-item"><img src="assets/logos/stush.webp" alt="Stush"></div>
-      <div class="logo-item"><img src="assets/logos/lilo-lily.webp" alt="Lilo & Lily"></div>
-    </div>
-  </div>
-
-  <!-- SERVICES -->
-  <section class="section" id="servicios">
-    <div class="section-label reveal">Lo que hacemos</div>
-    <h2 class="section-title reveal">Servicios <em>Integrales</em></h2>
-    <div class="services-grid reveal">
-      <div class="service-card">
-        <div class="service-num">01</div>
-        <div class="service-icon">📱</div>
-        <div class="service-name">Marketing Digital</div>
-        <p class="service-desc">Estrategias data-driven que conectan tu marca con la audiencia correcta en el momento correcto.</p>
-        <span class="service-tag">SEO · SEM · Social Ads</span>
-      </div>
-      <div class="service-card">
-        <div class="service-num">02</div>
-        <div class="service-icon">🎬</div>
-        <div class="service-name">Producción Audiovisual</div>
-        <p class="service-desc">Video production de alta calidad: spots, contenido para redes, cobertura de eventos, podcast y más.</p>
-        <span class="service-tag">Video · Foto · Podcast</span>
-      </div>
-      <div class="service-card">
-        <div class="service-num">03</div>
-        <div class="service-icon">💻</div>
-        <div class="service-name">Desarrollo Web</div>
-        <p class="service-desc">Sitios y aplicaciones web que no solo se ven increíbles — también convierten y escalan.</p>
-        <span class="service-tag">Web · App · E-commerce</span>
-      </div>
-      <div class="service-card">
-        <div class="service-num">04</div>
-        <div class="service-icon">✦</div>
-        <div class="service-name">Identidad & Marca</div>
-        <p class="service-desc">Creamos marcas con personalidad: naming, logotipo, sistema visual y guía de estilo completa.</p>
-        <span class="service-tag">Brand · UI · Motion</span>
+        <a href="#extraños" class="btn btn-filled">Escuchar</a>
+        <a href="#banda" class="btn btn-outline">La banda</a>
       </div>
     </div>
   </section>
 
-  <!-- STATS -->
-  <div class="stats-section" id="statsSection">
-    <div class="stat">
-      <span class="stat-num" data-target="120">0</span>
-      <span class="stat-label">Proyectos entregados</span>
+  <!-- EXTRAÑOS -->
+  <section id="extraños">
+    <p class="etiqueta reveal">Música</p>
+    <div class="single-grid reveal">
+      <div class="single-portada">
+        <img src="img/extraños.jpg" alt="Extraños — Studio San Francisco">
+      </div>
+      <div class="single-info">
+        <p class="single-nuevo">Nuevo sencillo</p>
+        <h2 class="single-titulo">Extraños</h2>
+        <p class="single-desc">Una apuesta al azar. Una carta boca abajo. El amor como ruleta — nunca sabes en qué número va a caer.</p>
+        <p class="single-fecha">10 . 04 . 25</p>
+        <a href="TULINK-PRESAVE" target="_blank" class="btn btn-filled" style="margin-top: 28px; display: inline-block;">Pre-save</a>
+      </div>
     </div>
-    <div class="stat">
-      <span class="stat-num" data-target="48">0</span>
-      <span class="stat-label">Clientes activos</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num" data-target="6">0</span>
-      <span class="stat-label">Años de experiencia</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num" data-target="98">0</span>
-      <span class="stat-label">% satisfacción</span>
-    </div>
-  </div>
+  </section>
 
-  <!-- WORK -->
-  <section class="section" id="trabajo">
-    <div class="section-label reveal">Portfolio</div>
-    <h2 class="section-title reveal">Trabajo <em>Selecto</em></h2>
-    <div class="work-grid reveal">
-      <div class="work-card" onclick="window.openModal('p1')">
-        <div class="work-card-bg wc1"></div>
-        <img src="assets/crep-protect.webp" alt="Crep Protect" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7;transition:transform .6s ease;" onerror="this.style.display='none'">
-        <div class="work-overlay"><span>Ver proyecto →</span></div>
-        <div class="work-info">
-          <div class="work-category">Dirección Creativa · Marketing</div>
-          <div class="work-title">Crep Protect</div>
-        </div>
+  <!-- BANDA -->
+  <section id="banda">
+    <p class="etiqueta reveal">La banda</p>
+    <div class="banda-grid">
+      <div class="banda-foto reveal">
+        <img src="img/ssf_3.png" alt="Studio San Francisco">
       </div>
-      <div class="work-card" onclick="window.openModal('p2')">
-        <div class="work-card-bg wc2"></div>
-        <img src="assets/club-america.webp" alt="Club América Podcast" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7;transition:transform .6s ease;" onerror="this.style.display='none'">
-        <div class="work-overlay"><span>Ver proyecto →</span></div>
-        <div class="work-info">
-          <div class="work-category">Producción Audiovisual</div>
-          <div class="work-title">Club América Podcast</div>
-        </div>
-      </div>
-      <div class="work-card" onclick="window.openModal('p3')">
-        <div class="work-card-bg wc3"></div>
-        <img src="assets/fwc26.webp" alt="FWC26 México City" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7;transition:transform .6s ease;" onerror="this.style.display='none'">
-        <div class="work-overlay"><span>Ver proyecto →</span></div>
-        <div class="work-info">
-          <div class="work-category">Contenido Digital · FIFA</div>
-          <div class="work-title">FWC26 México City</div>
-        </div>
-      </div>
-      <div class="work-card" onclick="window.openModal('p4')">
-        <div class="work-card-bg wc4"></div>
-        <img src="assets/deuce.webp" alt="Deuce.mx" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7;transition:transform .6s ease;" onerror="this.style.display='none'">
-        <div class="work-overlay"><span>Ver proyecto →</span></div>
-        <div class="work-info">
-          <div class="work-category">Branding · Colección</div>
-          <div class="work-title">Deuce.mx</div>
+      <div class="banda-texto reveal">
+        <h2 class="banda-titulo">Cuatro de<br><em>la Ciudad de México</em></h2>
+        <p class="banda-p">
+          Studio San Francisco nació en 2023. Hacemos música que vive en los espacios entre las cosas — entre quedarse e irse, entre conocer a alguien y perderlo.
+        </p>
+        <p class="banda-p">
+          Indie y dream pop. Música para los que sienten demasiado y no saben cómo decirlo.
+        </p>
+        <div class="integrantes">
+          <div class="integrante">
+            <span class="int-nombre">Diego Origel</span>
+            <span class="int-rol">Voz</span>
+          </div>
+          <div class="integrante">
+            <span class="int-nombre">Rodrigo Reyes</span>
+            <span class="int-rol">Guitarra</span>
+          </div>
+          <div class="integrante">
+            <span class="int-nombre">Héctor Gómez</span>
+            <span class="int-rol">Bajo</span>
+          </div>
+          <div class="integrante">
+            <span class="int-nombre">Santiago López</span>
+            <span class="int-rol">Batería</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROCESS -->
-  <section class="section" id="proceso">
-    <div class="section-label reveal">Metodología</div>
-    <h2 class="section-title reveal">Nuestro <em>Proceso</em></h2>
-    <div class="process-list reveal">
-      <div class="process-item">
-        <div class="process-num">01</div>
-        <div class="process-name">Descubrimiento</div>
-        <div class="process-detail">Entendemos tu negocio, objetivos y audiencia a fondo</div>
-      </div>
-      <div class="process-item">
-        <div class="process-num">02</div>
-        <div class="process-name">Estrategia</div>
-        <div class="process-detail">Diseñamos el plan más efectivo para tus metas</div>
-      </div>
-      <div class="process-item">
-        <div class="process-num">03</div>
-        <div class="process-name">Producción</div>
-        <div class="process-detail">Ejecutamos con precisión, creatividad y velocidad</div>
-      </div>
-      <div class="process-item">
-        <div class="process-num">04</div>
-        <div class="process-name">Lanzamiento</div>
-        <div class="process-detail">Publicamos, medimos y optimizamos continuamente</div>
-      </div>
-      <div class="process-item">
-        <div class="process-num">05</div>
-        <div class="process-name">Crecimiento</div>
-        <div class="process-detail">Escala sostenida con datos y mejora continua</div>
-      </div>
+  <!-- CLUB DE CORAZONES ROTOS -->
+  <section id="club">
+    <div class="reveal">
+      <h2 class="club-titulo">Club de<br><span>Corazones Rotos</span></h2>
+      <p class="club-sub">Para los que ya saben de qué va esto.</p>
+      <a href="TULINK-CLUB" target="_blank" class="btn btn-outline">Unirme</a>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta-section" id="contacto">
-    <div class="cta-label reveal">¿Listo para empezar?</div>
-    <h2 class="cta-headline reveal">Hagamos algo<br><span class="ghost">memorable.</span></h2>
-    <p class="cta-sub reveal">Tu proyecto merece una agencia que entienda tanto la estrategia como la ejecución. Cuéntanos qué tienes en mente.</p>
-    <a href="mailto:hola@unknown.com.mx" class="cta-email reveal">hola@unknown.com.mx</a>
-    <br><br>
-    <a href="mailto:hola@unknown.com.mx" class="btn-primary reveal" style="margin-top:2rem">Iniciar proyecto →</a>
+  <!-- SHOWS -->
+  <section id="shows">
+    <p class="etiqueta reveal">Shows</p>
+    <div class="shows-vacio reveal">
+      <p>Próximas fechas</p>
+      <span>Síguenos para no perderte nada</span>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <p class="etiqueta reveal">Contacto</p>
+    <div class="contacto-grid">
+      <div class="contacto-izq reveal">
+        <h2>Hablemos.</h2>
+        <p>Booking, prensa, colaboraciones — escríbenos.</p>
+        <div class="redes">
+          <a href="https://instagram.com/studiosanfrancisco" target="_blank" class="red">
+            <span class="red-nombre">Instagram</span>
+            <span class="red-handle">@studiosanfrancisco</span>
+          </a>
+          <a href="https://tiktok.com/@studiosanfrancisco" target="_blank" class="red">
+            <span class="red-nombre">TikTok</span>
+            <span class="red-handle">@studiosanfrancisco</span>
+          </a>
+          <a href="https://open.spotify.com/artist/TULINK" target="_blank" class="red">
+            <span class="red-nombre">Spotify</span>
+            <span class="red-handle">Studio San Francisco</span>
+          </a>
+          <a href="https://www.youtube.com/@studiosanfrancisco" target="_blank" class="red">
+            <span class="red-nombre">YouTube</span>
+            <span class="red-handle">@studiosanfrancisco</span>
+          </a>
+        </div>
+      </div>
+      <div class="contacto-der reveal">
+        <div class="form-campo">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre">
+        </div>
+        <div class="form-campo">
+          <label>Email</label>
+          <input type="email" placeholder="correo@ejemplo.com">
+        </div>
+        <div class="form-campo">
+          <label>Mensaje</label>
+          <textarea placeholder="Cuéntanos..."></textarea>
+        </div>
+        <button class="form-enviar" onclick="enviar()">Enviar</button>
+        <p class="form-ok" id="formOk">Mensaje recibido. Pronto te contactamos.</p>
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo"><img src="assets/logos/logo_unknown_blanco.png" alt="Unknown Studio"></div>
-    <div class="footer-copy">© 2025 Unknown Agency. Ciudad de México.</div>
-    <div class="footer-social">
-      <a href="#">Instagram</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Behance</a>
-    </div>
+    <span class="footer-logo">SSF — Studio San Francisco</span>
+    <span class="footer-copy">© 2025 Ciudad de México</span>
   </footer>
 
-  <!-- MODAL -->
-  <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal" id="modalBox">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div class="modal-hero">
-        <div class="modal-hero-bg" id="modalBg"></div>
-      </div>
-      <div class="modal-body">
-        <div class="modal-category" id="modalCategory"></div>
-        <div class="modal-title" id="modalTitle"></div>
-        <p class="modal-desc" id="modalDesc"></p>
-        <div class="modal-tags" id="modalTags"></div>
-        <div class="modal-results" id="modalResults"></div>
-        <a href="#contacto" class="btn-primary" id="modalCta">Quiero algo así →</a>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // SCROLL REVEAL
-    const revObs = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 80);
-          revObs.unobserve(e.target);
-        }
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
       });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => {
-      el.classList.add('animate');
-      revObs.observe(el);
-    });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // COUNTERS
-    function animCounter(el) {
-      const target = +el.dataset.target;
-      const start  = performance.now();
-      (function tick(now) {
-        const p = Math.min((now - start) / 2000, 1);
-        const e = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(e * target);
-        if (p < 1) requestAnimationFrame(tick);
-        else el.textContent = target + (el.dataset.target === '98' ? '%' : '+');
-      })(start);
+    // Form
+    function enviar() {
+      document.getElementById('formOk').style.display = 'block';
     }
-    const statsEl = document.getElementById('statsSection');
-    let countersFired = false;
-    const counterObs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !countersFired) {
-          countersFired = true;
-          entry.target.querySelectorAll('[data-target]').forEach(animCounter);
-        }
-      });
-    }, { threshold: 0.05 });
-    if (statsEl) counterObs.observe(statsEl);
-
-    // MODAL DATA
-    const projects = {
-      p1: {
-        category: 'Dirección Creativa · Marketing',
-        title: 'Crep Protect',
-        desc: 'Operaciones creativas y de marketing a nivel LATAM para la marca líder en cuidado de calzado. Dirección creativa integral, producción de contenido y estrategia de marca para toda la región.',
-        bg: 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)',
-        tags: ['Dir. Creativa', 'Marketing', 'LATAM', 'Contenido'],
-        results: [
-          { num: 'LATAM', label: 'Alcance regional' },
-          { num: '#1',    label: 'Marca en su categoría' },
-          { num: '360°',  label: 'Gestión integral' }
-        ]
-      },
-      p2: {
-        category: 'Producción Audiovisual',
-        title: 'Club América Podcast',
-        desc: 'Producción completa del podcast oficial del Club América — el equipo más grande de México. Pre, producción y post en cada episodio: dirección, operación de cámara, audio multicanal y edición con jugadores y figuras americanistas.',
-        bg: 'linear-gradient(135deg, #1a0a00, #3d1a00, #7a3200)',
-        tags: ['Video', 'Podcast', 'Dirección', 'Audio', 'Deportes'],
-        results: [
-          { num: '3',    label: 'Cámaras Blackmagic' },
-          { num: '100%', label: 'Ciclo de producción' },
-          { num: '+14M', label: 'Fans Club América' }
-        ]
-      },
-      p3: {
-        category: 'Contenido Digital · FIFA',
-        title: 'FWC26 México City',
-        desc: 'Ideación, levantamiento y edición de contenido para la cuenta oficial de Ciudad de México como sede FIFA rumbo al Mundial 2026. El torneo más visto del planeta — produciendo el contenido que lo anticipa.',
-        bg: 'linear-gradient(135deg, #0a1a0a, #0d2e0d, #1a5c1a)',
-        tags: ['Contenido', 'FIFA', 'Redes Sociales', 'Producción', 'Mundial'],
-        results: [
-          { num: '109K', label: 'Seguidores cuenta oficial' },
-          { num: '2026', label: 'El evento más grande' },
-          { num: '3',    label: 'Fases cubiertas' }
-        ]
-      },
-      p4: {
-        category: 'Branding · Colección',
-        title: 'Deuce.mx',
-        desc: 'Identidad visual completa para marca mexicana de apparel deportivo inspirada en cultura del tenis. Desde el logotipo hasta el sistema de diseño aplicado en colección de 30+ piezas — poleras, faldas, accesorios y drops limitados.',
-        bg: 'linear-gradient(135deg, #1a001a, #2e002e, #5c005c)',
-        tags: ['Branding', 'Identidad Visual', 'Diseño de Colección', 'Fashion', 'Logo'],
-        results: [
-          { num: '30+', label: 'Piezas diseñadas' },
-          { num: '2',   label: 'Temporadas SS + FW' },
-          { num: '1',   label: 'Marca desde cero' }
-        ]
-      }
-    };
-
-    // MODAL LOGIC
-    const backdrop = document.getElementById('modalBackdrop');
-
-    window.openModal = function(id) {
-      const p = projects[id];
-      if (!p) return;
-      document.getElementById('modalBg').style.background  = p.bg;
-      document.getElementById('modalCategory').textContent = p.category;
-      document.getElementById('modalTitle').textContent    = p.title;
-      document.getElementById('modalDesc').textContent     = p.desc;
-      document.getElementById('modalTags').innerHTML       = p.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
-      document.getElementById('modalResults').innerHTML    = p.results.map(r =>
-        `<div class="modal-result">
-          <span class="modal-result-num">${r.num}</span>
-          <span class="modal-result-label">${r.label}</span>
-        </div>`).join('');
-      backdrop.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    window.closeModal = function() {
-      backdrop.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('modalClose').addEventListener('click', window.closeModal);
-    backdrop.addEventListener('click', function(e) {
-      if (e.target === backdrop) window.closeModal();
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') window.closeModal();
-    });
   </script>
+
 </body>
 </html>
