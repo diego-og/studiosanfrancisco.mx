@@ -81,7 +81,7 @@
       font-weight: 400;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--hueso);
+      color: var(--crema);
       text-decoration: none;
       transition: color 0.3s;
     }
@@ -98,7 +98,7 @@
     .hero-img {
       position: absolute;
       inset: 0;
-      background: url('img/ssf_1.png') center center / cover no-repeat;
+      background: url('img/ssf_1.webp') center center / cover no-repeat;
       transform: scale(1.04);
       animation: slowzoom 12s ease-out forwards;
     }
@@ -132,7 +132,7 @@
     }
     .hero-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(56px, 9vw, 120px);
+      font-size: clamp(48px, 7vw, 90px);
       font-weight: 400;
       line-height: 0.92;
       color: var(--crema);
@@ -573,10 +573,10 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      nav { padding: 24px; }
+      nav { padding: 16px 24px; }
       nav.scrolled { padding: 16px 24px; }
       .nav-links { display: none; }
-      #hero .hero-content { padding: 0 24px 56px; }
+      #hero .hero-content { padding: 0 24px 32px; }
       section { padding: 80px 24px; }
       .single-grid { grid-template-columns: 1fr; gap: 40px; }
       .banda-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -591,8 +591,7 @@
   <!-- NAV -->
   <nav id="nav">
     <a href="#hero" class="nav-logo">
-      <!-- Cuando tengas logo: <img src="img/logo.svg" alt="SSF" height="22"> -->
-      Studio San Francisco
+      <img src="img/logo.png" alt="Studio San Francisco" height="40">
     </a>
     <ul class="nav-links">
       <li><a href="#extraños">Música</a></li>
@@ -626,7 +625,7 @@
     <p class="etiqueta reveal">Música</p>
     <div class="single-grid reveal">
       <div class="single-portada">
-        <img src="img/extraños.jpg" alt="Extraños — Studio San Francisco">
+        <img src="img/extranos.jpg" alt="Extraños — Studio San Francisco">
       </div>
       <div class="single-info">
         <p class="single-nuevo">Nuevo sencillo</p>
@@ -643,7 +642,7 @@
     <p class="etiqueta reveal">La banda</p>
     <div class="banda-grid">
       <div class="banda-foto reveal">
-        <img src="img/ssf_3.png" alt="Studio San Francisco">
+        <img src="img/ssf_2.webp" alt="Studio San Francisco">
       </div>
       <div class="banda-texto reveal">
         <h2 class="banda-titulo">Cuatro de<br><em>la Ciudad de México</em></h2>
@@ -680,7 +679,7 @@
     <div class="reveal">
       <h2 class="club-titulo">Club de<br><span>Corazones Rotos</span></h2>
       <p class="club-sub">Para los que ya saben de qué va esto.</p>
-      <a href="TULINK-CLUB" target="_blank" class="btn btn-outline">Unirme</a>
+      <a href="https://www.instagram.com/channel/AbYSZvKkzEZ69_5y/?igsh=ZGZzd3N5MGFuNTc1" target="_blank" class="btn btn-outline">Unirme</a>
     </div>
   </section>
 
@@ -701,21 +700,25 @@
         <h2>Hablemos.</h2>
         <p>Booking, prensa, colaboraciones — escríbenos.</p>
         <div class="redes">
-          <a href="https://instagram.com/studiosanfrancisco" target="_blank" class="red">
+          <a href="https://www.instagram.com/ssfband/" target="_blank" class="red">
             <span class="red-nombre">Instagram</span>
-            <span class="red-handle">@studiosanfrancisco</span>
+            <span class="red-handle">@ssfband</span>
           </a>
-          <a href="https://tiktok.com/@studiosanfrancisco" target="_blank" class="red">
+          <a href="https://www.tiktok.com/@studiosanfco" target="_blank" class="red">
             <span class="red-nombre">TikTok</span>
-            <span class="red-handle">@studiosanfrancisco</span>
+            <span class="red-handle">@studiosanfco</span>
           </a>
-          <a href="https://open.spotify.com/artist/TULINK" target="_blank" class="red">
+          <a href="https://open.spotify.com/intl-es/artist/4cwMacR2yR2QmpmeV0GMm2" target="_blank" class="red">
             <span class="red-nombre">Spotify</span>
             <span class="red-handle">Studio San Francisco</span>
           </a>
-          <a href="https://www.youtube.com/@studiosanfrancisco" target="_blank" class="red">
+          <a href="https://www.youtube.com/channel/UCZ45mhG1o43DdKS1i5GfGxA" target="_blank" class="red">
             <span class="red-nombre">YouTube</span>
-            <span class="red-handle">@studiosanfrancisco</span>
+            <span class="red-handle">Studio San Francisco</span>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61578835633848" target="_blank" class="red">
+            <span class="red-nombre">Facebook</span>
+            <span class="red-handle">Studio San Francisco</span>
           </a>
         </div>
       </div>
