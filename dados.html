@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Extraños — Studio San Francisco</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --verde: #1a5c2a;
+    --verde-oscuro: #0d3318;
+    --verde-claro: #2d8a42;
+    --crema: #f5f0e0;
+    --rojo: #cc2222;
+    --oro: #d4a820;
+    --pixel: 'Press Start 2P', monospace;
+  }
+
+  body {
+    background: var(--verde-oscuro);
+    font-family: var(--pixel);
+    color: var(--crema);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+  }
+
+  /* ── FELT TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 20px;
+  }
+
+  .screen.hidden { display: none; }
+
+  /* ── MENU ── */
+  #menu {
+    background: radial-gradient(ellipse at center, #1a5c2a 0%, #0d3318 100%);
+    gap: 24px;
+  }
+
+  .logo-title {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .logo-title h1 {
+    font-size: clamp(14px, 4vw, 22px);
+    color: var(--oro);
+    text-shadow: 3px 3px 0px #7a5500;
+    letter-spacing: 2px;
+    line-height: 1.6;
+  }
+
+  .logo-title p {
+    font-size: clamp(7px, 2vw, 10px);
+    color: var(--crema);
+    opacity: 0.7;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--oro), transparent);
+    margin: 4px 0;
+  }
+
+  .select-label {
+    font-size: clamp(7px, 2vw, 9px);
+    color: var(--crema);
+    opacity: 0.8;
+    letter-spacing: 1px;
+  }
+
+  /* ── CHARACTER SELECT ── */
+  .characters-grid {
+    display: flex;
+    gap: clamp(10px, 3vw, 20px);
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 500px;
+  }
+
+  .char-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.1s;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .char-card:hover, .char-card.selected {
+    border-color: var(--oro);
+    background: rgba(212,168,32,0.1);
+    transform: translateY(-3px);
+  }
+
+  .char-card img {
+    width: clamp(50px, 12vw, 80px);
+    height: clamp(70px, 17vw, 110px);
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+
+  .char-name {
+    font-size: clamp(5px, 1.5vw, 7px);
+    color: var(--crema);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  /* ── START BUTTON ── */
+  .btn-start {
+    font-family: var(--pixel);
+    font-size: clamp(9px, 2.5vw, 12px);
+    color: var(--verde-oscuro);
+    background: var(--oro);
+    border: none;
+    padding: 14px 32px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    box-shadow: 4px 4px 0px #7a5500;
+    transition: all 0.1s;
+    image-rendering: pixelated;
+  }
+
+  .btn-start:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #7a5500;
+  }
+
+  .btn-start:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── GAME ── */
+  #game {
+    background: radial-gradient(ellipse at center, #1a5c2a 0%, #0d3318 100%);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* HUD */
+  .hud {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.4);
+    border-bottom: 2px solid var(--oro);
+    z-index: 20;
+    flex-shrink: 0;
+  }
+
+  .hud-score {
+    font-size: clamp(7px, 2vw, 10px);
+    color: var(--oro);
+  }
+
+  .hud-lives {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .life-icon {
+    width: clamp(16px, 4vw, 22px);
+    height: clamp(16px, 4vw, 22px);
+    background: var(--rojo);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    transition: opacity 0.3s;
+  }
+
+  .life-icon.lost { opacity: 0.15; }
+
+  .hud-title {
+    font-size: clamp(6px, 1.5vw, 8px);
+    color: var(--crema);
+    opacity: 0.6;
+  }
+
+  /* CANVAS */
+  #gameCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    cursor: none;
+    z-index: 1;
+  }
+
+  /* PLAYER */
+  .player-area {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: clamp(90px, 20vh, 130px);
+    background: transparent;
+    overflow: visible;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  #playerImg {
+    position: absolute;
+    bottom: 0;
+    image-rendering: pixelated;
+    width: clamp(60px, 14vw, 100px);
+    height: clamp(85px, 19vw, 130px);
+    object-fit: contain;
+    transition: left 0.05s linear;
+    filter: drop-shadow(0 0 8px rgba(212,168,32,0.5));
+  }
+
+  /* ── GAME OVER / WIN ── */
+  #gameover, #win {
+    background: rgba(13,51,24,0.97);
+    gap: 20px;
+    text-align: center;
+  }
+
+  #gameover h2 { color: var(--rojo); font-size: clamp(14px, 4vw, 20px); text-shadow: 3px 3px 0 #660000; }
+  #win h2 { color: var(--oro); font-size: clamp(14px, 4vw, 20px); text-shadow: 3px 3px 0 #7a5500; }
+
+  .final-score {
+    font-size: clamp(8px, 2.5vw, 12px);
+    color: var(--crema);
+    line-height: 2;
+  }
+
+  .btn-retry {
+    font-family: var(--pixel);
+    font-size: clamp(8px, 2.5vw, 11px);
+    color: var(--verde-oscuro);
+    background: var(--crema);
+    border: none;
+    padding: 12px 28px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+  }
+
+  .btn-retry:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.4); }
+
+  .btn-presave {
+    font-family: var(--pixel);
+    font-size: clamp(7px, 2vw, 10px);
+    color: var(--crema);
+    background: var(--rojo);
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 4px 4px 0px #660000;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-presave:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0px #660000; }
+
+  .ssf-tag {
+    font-size: clamp(6px, 1.5vw, 8px);
+    color: var(--oro);
+    opacity: 0.7;
+    letter-spacing: 2px;
+    margin-top: 8px;
+  }
+
+  /* FLASH */
+  .flash {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  .flash.red { background: rgba(200,0,0,0.3); }
+  .flash.gold { background: rgba(212,168,32,0.2); }
+  .flash.active { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="flash" id="flash"></div>
+
+<!-- ── MENU ── -->
+<div class="screen" id="menu">
+  <div class="logo-title">
+    <h1>EXTRAÑOS</h1>
+    <p>STUDIO SAN FRANCISCO</p>
+  </div>
+  <div class="divider"></div>
+  <div class="select-label">ELIGE TU PERSONAJE</div>
+  <div class="characters-grid">
+    <div class="char-card selected" data-char="bajista" onclick="selectChar(this)">
+      <img src="game/bajista.png" alt="Bajista">
+      <div class="char-name">BAJISTA</div>
+    </div>
+    <div class="char-card" data-char="baterista" onclick="selectChar(this)">
+      <img src="game/baterista.png" alt="Baterista">
+      <div class="char-name">BATERISTA</div>
+    </div>
+    <div class="char-card" data-char="guitarrista" onclick="selectChar(this)">
+      <img src="game/guitarrista.png" alt="Guitarrista">
+      <div class="char-name">GUITARRISTA</div>
+    </div>
+    <div class="char-card" data-char="vocalista" onclick="selectChar(this)">
+      <img src="game/vocalista.png" alt="Vocalista">
+      <div class="char-name">VOCALISTA</div>
+    </div>
+  </div>
+  <button class="btn-start" id="btnStart" onclick="playAudio(); startGame()">START</button>
+  <div style="font-size:clamp(5px,1.5vw,7px); color:var(--crema); opacity:0.5; text-align:center; line-height:2; letter-spacing:1px;">
+    🎲 CACHA LOS DADOS — +10 PTS &nbsp;|&nbsp; 💔 EVITA LOS CORAZONES ROTOS<br>
+    3 VIDAS · LLEGA A 200 PUNTOS PARA GANAR
+  </div>
+  <div class="ssf-tag">studiosanfrancisco.mx</div>
+</div>
+
+<!-- ── GAME ── -->
+<div class="screen hidden" id="game">
+  <div class="hud">
+    <div class="hud-score">PUNTOS: <span id="scoreDisplay">0</span></div>
+    <div class="hud-title">EXTRAÑOS</div>
+    <div class="hud-lives" id="livesDisplay">
+      <div class="life-icon" id="life1"></div>
+      <div class="life-icon" id="life2"></div>
+      <div class="life-icon" id="life3"></div>
+    </div>
+  </div>
+  <div style="position:relative; flex:1; width:100%;">
+    <canvas id="gameCanvas"></canvas>
+    <div class="player-area" id="playerArea">
+      <img id="playerImg" src="" alt="Player">
+    </div>
+  </div>
+</div>
+
+<!-- ── GAME OVER ── -->
+<div class="screen hidden" id="gameover">
+  <h2>💔 GAME OVER</h2>
+  <div class="final-score">
+    PUNTOS: <span id="finalScore">0</span><br>
+    <span style="font-size:0.7em; opacity:0.6">EL AMOR TAMBIÉN DUELE</span>
+  </div>
+  <a class="btn-presave" href="https://hypeddit.com/50garu" target="_blank">🎲 ESCUCHA EXTRAÑOS</a>
+  <button class="btn-retry" onclick="goMenu()">INTENTAR DE NUEVO</button>
+  <div class="ssf-tag">EXTRAÑOS — 10.04 · studiosanfrancisco.mx</div>
+</div>
+
+<!-- ── WIN ── -->
+<div class="screen hidden" id="win">
+  <h2>🎲 LO LOGRASTE</h2>
+  <div class="final-score">
+    PUNTOS: <span id="winScore">0</span><br>
+    <span style="font-size:0.7em; opacity:0.6">APOSTASTE TODO Y GANASTE</span>
+  </div>
+  <a class="btn-presave" href="https://hypeddit.com/50garu" target="_blank">🎲 ESCUCHA EXTRAÑOS</a>
+  <button class="btn-retry" onclick="goMenu()">JUGAR DE NUEVO</button>
+  <div class="ssf-tag">EXTRAÑOS — 10.04 · studiosanfrancisco.mx</div>
+</div>
+
+<script>
+  // ── AUDIO — arranca en cuanto el usuario toca cualquier cosa ──
+  const audio = new Audio('game/extranos.mp3');
+  audio.loop = true;
+  audio.volume = 0.4;
+  let audioStarted = false;
+  function playAudio() {
+    if (!audioStarted) {
+      audio.play().catch(()=>{});
+      audioStarted = true;
+    }
+  }
+  function stopAudio() { /* música continúa en game over y win */ }
+
+  // Arranca con cualquier toque/click en la pantalla de menú
+  document.addEventListener('click', playAudio, { once: false });
+  document.addEventListener('touchstart', playAudio, { once: false });
+
+  // ── STATE ──
+  let selectedChar = 'bajista';
+  let score = 0;
+  let lives = 3;
+  let gameRunning = false;
+  let items = [];
+  let playerX = 0;
+  let animFrame;
+  let spawnTimer = 0;
+  let spawnInterval = 115;
+  let speed = 1.6;
+  let frameCount = 0;
+
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Images
+  const imgDado = new Image(); imgDado.src = 'game/dado.png';
+  const imgCorazon = new Image(); imgCorazon.src = 'game/corazon.png';
+  const imgPlayers = {};
+  ['bajista','baterista','guitarrista','vocalista'].forEach(c => {
+    imgPlayers[c] = new Image();
+    imgPlayers[c].src = `game/${c}.png`;
+  });
+
+  // ── MENU ──
+  function selectChar(el) {
+    document.querySelectorAll('.char-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedChar = el.dataset.char;
+    playAudio(); // start music on first interaction
+  }
+
+  function startGame() {
+    score = 0; lives = 3; items = []; frameCount = 0;
+    speed = 1.6; spawnInterval = 115; spawnTimer = 0;
+    gameRunning = true;
+
+    document.getElementById('menu').classList.add('hidden');
+    document.getElementById('gameover').classList.add('hidden');
+    document.getElementById('win').classList.add('hidden');
+    document.getElementById('game').classList.remove('hidden');
+
+    document.getElementById('playerImg').src = `game/${selectedChar}.png`;
+    updateHUD();
+    resizeCanvas();
+    playerX = canvas.width / 2;
+    loop();
+  }
+
+  function goMenu() {
+    cancelAnimationFrame(animFrame);
+    gameRunning = false;
+    document.getElementById('gameover').classList.add('hidden');
+    document.getElementById('win').classList.add('hidden');
+    document.getElementById('game').classList.add('hidden');
+    document.getElementById('menu').classList.remove('hidden');
+  }
+
+  // ── CANVAS ──
+  function resizeCanvas() {
+    const container = canvas.parentElement;
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+  }
+  window.addEventListener('resize', () => { if (gameRunning) resizeCanvas(); });
+
+  // ── PLAYER MOVEMENT ──
+  // Mouse
+  document.addEventListener('mousemove', e => {
+    if (!gameRunning) return;
+    playerX = e.clientX;
+    updatePlayerPos();
+  });
+
+  // Touch
+  document.addEventListener('touchmove', e => {
+    if (!gameRunning) return;
+    e.preventDefault();
+    playerX = e.touches[0].clientX;
+    updatePlayerPos();
+  }, { passive: false });
+
+  function updatePlayerPos() {
+    const img = document.getElementById('playerImg');
+    const area = document.getElementById('playerArea');
+    const imgW = img.offsetWidth;
+    const maxX = area.offsetWidth - imgW;
+    const clampedX = Math.max(0, Math.min(playerX - imgW/2, maxX));
+    img.style.left = clampedX + 'px';
+  }
+
+  // ── SPAWNING ──
+  function spawnItem() {
+    const isDado = Math.random() < 0.65;
+    const x = Math.random() * (canvas.width - 60) + 30;
+    items.push({
+      x, y: -60,
+      type: isDado ? 'dado' : 'corazon',
+      size: isDado ? 52 : 44,
+      speed: speed + Math.random() * 0.8,
+      wobble: Math.random() * Math.PI * 2,
+      wobbleSpeed: (Math.random() - 0.5) * 0.04
+    });
+  }
+
+  // ── GAME LOOP ──
+  function loop() {
+    if (!gameRunning) return;
+    frameCount++;
+
+    // Difficulty ramp
+    if (frameCount % 350 === 0) {
+      speed = Math.min(speed + 0.22, 5.5);
+      spawnInterval = Math.max(spawnInterval - 3, 60);
+    }
+
+    // Spawn
+    spawnTimer++;
+    if (spawnTimer >= spawnInterval) {
+      spawnItem();
+      spawnTimer = 0;
+    }
+
+    // Draw background
+    ctx.fillStyle = '#1a5c2a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Felt grid
+    ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    // Player catch zone — detecta a mitad de cuerpo
+    const img = document.getElementById('playerImg');
+    const area = document.getElementById('playerArea');
+    const playerLeft = img.offsetLeft;
+    const playerW = img.offsetWidth;
+    const headOffset = img.offsetHeight * 0.5; // 50% = mitad de cuerpo
+    const catchY = canvas.height - area.offsetHeight + headOffset;
+
+    // Update & draw items
+    for (let i = items.length - 1; i >= 0; i--) {
+      const item = items[i];
+      item.y += item.speed;
+      item.wobble += item.wobbleSpeed;
+      const drawX = item.x + Math.sin(item.wobble) * 3;
+
+      // Draw shadow
+      ctx.save();
+      ctx.globalAlpha = 0.15;
+      ctx.fillStyle = '#000';
+      ctx.beginPath();
+      ctx.ellipse(drawX, item.y + item.size/2 + 4, item.size/3, 6, 0, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+
+      // Draw item
+      const img2draw = item.type === 'dado' ? imgDado : imgCorazon;
+      ctx.save();
+      ctx.globalAlpha = 1;
+      ctx.drawImage(img2draw, drawX - item.size/2, item.y - item.size/2, item.size, item.size);
+      ctx.restore();
+
+      // Check catch (item reaches player area)
+      if (item.y + item.size/2 >= catchY) {
+        const itemCenterX = item.x;
+        const caught = itemCenterX >= playerLeft - item.size * 0.5 && itemCenterX <= playerLeft + playerW + item.size * 0.5;
+
+        if (caught) {
+          if (item.type === 'dado') {
+            score += 10;
+            flashScreen('gold');
+          } else {
+            loseLife();
+            flashScreen('red');
+          }
+        } else {
+          // Missed a dado = lose life
+          if (item.type === 'dado') {
+            loseLife();
+            flashScreen('red');
+          }
+        }
+        items.splice(i, 1);
+        updateHUD();
+        continue;
+      }
+    }
+
+    // Win condition
+    if (score >= 200) {
+      endGame('win');
+      return;
+    }
+
+    animFrame = requestAnimationFrame(loop);
+  }
+
+  // ── LIVES ──
+  function loseLife() {
+    lives--;
+    if (lives <= 0) {
+      lives = 0;
+      endGame('gameover');
+    }
+  }
+
+  function updateHUD() {
+    document.getElementById('scoreDisplay').textContent = score;
+    ['life1','life2','life3'].forEach((id, i) => {
+      document.getElementById(id).classList.toggle('lost', i >= lives);
+    });
+  }
+
+  // ── END ──
+  function endGame(type) {
+    gameRunning = false;
+    cancelAnimationFrame(animFrame);
+    stopAudio();
+    document.getElementById('game').classList.add('hidden');
+    if (type === 'gameover') {
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('gameover').classList.remove('hidden');
+    } else {
+      document.getElementById('winScore').textContent = score;
+      document.getElementById('win').classList.remove('hidden');
+    }
+  }
+
+  // ── FLASH ──
+  function flashScreen(color) {
+    const f = document.getElementById('flash');
+    f.className = `flash ${color} active`;
+    setTimeout(() => f.classList.remove('active'), 120);
+  }
+</script>
+</body>
+</html>
