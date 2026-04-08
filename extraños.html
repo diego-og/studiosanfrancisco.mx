@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="height: -webkit-fill-available;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -23,7 +23,8 @@
     background: var(--verde-oscuro);
     font-family: var(--pixel);
     color: var(--crema);
-    height: 100vh;
+    height: 100%;
+    min-height: -webkit-fill-available;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -232,7 +233,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: clamp(90px, 20vh, 130px);
+    height: clamp(110px, 22vh, 150px);
     background: transparent;
     overflow: visible;
     z-index: 2;
@@ -243,8 +244,8 @@
     position: absolute;
     bottom: 0;
     image-rendering: pixelated;
-    width: clamp(60px, 14vw, 100px);
-    height: clamp(85px, 19vw, 130px);
+    width: clamp(80px, 18vw, 110px);
+    height: clamp(110px, 24vw, 150px);
     object-fit: contain;
     transition: left 0.05s linear;
     filter: drop-shadow(0 0 8px rgba(212,168,32,0.5));
@@ -479,8 +480,9 @@
   // ── CANVAS ──
   function resizeCanvas() {
     const container = canvas.parentElement;
-    canvas.width = container.offsetWidth;
-    canvas.height = container.offsetHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - document.querySelector('.hud').offsetHeight;
+    container.style.height = canvas.height + 'px';
   }
   window.addEventListener('resize', () => { if (gameRunning) resizeCanvas(); });
 
